@@ -66,9 +66,3 @@ st.pyplot(fig)
 # ---------------------------
 # TEXTO FINAL
 # ---------------------------
-
-streamlit==1.33.0
-pandas==2.2.2
-matplotlib==3.8.4
-numpy==1.26.4
-st.write("Dashboard creado con Streamlit 🚀")
