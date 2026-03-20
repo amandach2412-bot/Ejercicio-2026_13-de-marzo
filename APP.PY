@@ -3,66 +3,122 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # ---------------------------
-# CONFIGURACION INICIAL
+# CONFIGURACION
 # ---------------------------
-st.set_page_config(page_title="Mi Dashboard", layout="wide")
+st.set_page_config(page_title="Dashboard Psicologia e IA", layout="wide")
 
 # ---------------------------
 # TITULO
 # ---------------------------
-st.title("Dashboard de Analisis")
-st.write("Este es un dashboard basico en Streamlit")
+st.title("Dashboard: IA en la Psicologia")
+st.write("Analisis del uso de chatbots en la salud mental")
 
 # ---------------------------
-# CARGA DE DATOS
+# SIDEBAR
 # ---------------------------
-@st.cache_data
-def cargar_datos():
-    data = pd.DataFrame({
-        'Categoria': ['A', 'B', 'C', 'D'],
-        'Valores': [10, 20, 15, 30]
-    })
-    return data
+st.sidebar.header("Secciones")
 
-df = cargar_datos()
-
-# ---------------------------
-# SIDEBAR (FILTROS)
-# ---------------------------
-st.sidebar.header("Filtros")
-
-categoria = st.sidebar.selectbox(
-    "Selecciona categoria",
-    df['Categoria']
+seccion = st.sidebar.radio(
+    "Selecciona una seccion",
+    [
+        "Resumen",
+        "Ventajas",
+        "Desventajas",
+        "Futuro",
+        "Reflexion critica",
+        "Visualizacion"
+    ]
 )
 
-df_filtrado = df[df['Categoria'] == categoria]
+# ---------------------------
+# CONTENIDO
+# ---------------------------
+
+if seccion == "Resumen":
+    st.header("Resumen")
+    st.write("""
+    Los chatbots son herramientas digitales que simulan conversaciones humanas y 
+    estan siendo utilizados en el campo de la psicologia como apoyo emocional.
+    
+    Permiten acceso rapido a ayuda, especialmente para estudiantes con estres o TDAH.
+    """)
+
+elif seccion == "Ventajas":
+    st.header("Ventajas de los chatbots")
+
+    ventajas = [
+        "Disponibilidad inmediata",
+        "Acceso rapido a apoyo emocional",
+        "Uso de terapia cognitivo conductual",
+        "Facilitan autoevaluacion",
+        "Apoyo constante"
+    ]
+
+    for v in ventajas:
+        st.write("- " + v)
+
+elif seccion == "Desventajas":
+    st.header("Desventajas de los chatbots")
+
+    desventajas = [
+        "No tienen empatia real",
+        "Pueden generar dependencia",
+        "Pueden aumentar la soledad",
+        "No reemplazan a un profesional",
+    ]
+
+    for d in desventajas:
+        st.write("- " + d)
+
+elif seccion == "Futuro":
+    st.header("Futuro de la IA en psicologia")
+
+    st.write("""
+    Los chatbots no reemplazaran a los psicologos, sino que funcionaran como asistentes.
+    
+    Pueden ayudar a detectar sintomas tempranos y apoyar en tareas repetitivas.
+    """)
+
+elif seccion == "Reflexion critica":
+    st.header("Reflexion critica")
+
+    st.write("""
+    La inteligencia artificial es util para organizar informacion y generar contenido rapido.
+    
+    Sin embargo, presenta limitaciones:
+    - Puede generar informacion incorrecta
+    - Falta profundidad critica
+    - Depende de la calidad del prompt
+    
+    El juicio humano sigue siendo esencial.
+    """)
+
+# ---------------------------
+# VISUALIZACION
+# ---------------------------
+elif seccion == "Visualizacion":
+    st.header("Analisis visual")
+
+    data = pd.DataFrame({
+        "Categoria": ["Ventajas", "Desventajas"],
+        "Cantidad": [5, 4]
+    })
+
+    st.subheader("Comparacion")
+
+    fig, ax = plt.subplots()
+    ax.bar(data["Categoria"], data["Cantidad"])
+    ax.set_title("Comparacion de aspectos positivos y negativos")
+    ax.set_ylabel("Cantidad")
+
+    st.pyplot(fig)
 
 # ---------------------------
 # METRICAS
 # ---------------------------
-st.subheader("Metricas")
-col1, col2 = st.columns(2)
+st.sidebar.header("Metricas")
 
-col1.metric("Total", int(df['Valores'].sum()))
-col2.metric("Seleccionado", int(df_filtrado['Valores'].sum()))
+col1, col2 = st.sidebar.columns(2)
 
-# ---------------------------
-# TABLA
-# ---------------------------
-st.subheader("Datos")
-st.dataframe(df)
-
-# ---------------------------
-# GRAFICA
-# ---------------------------
-st.subheader("Grafica")
-
-fig, ax = plt.subplots()
-ax.bar(df['Categoria'], df['Valores'])
-st.pyplot(fig)
-
-# ---------------------------
-# TEXTO FINAL
-# ---------------------------
-st.write("Dashboard creado con Streamlit")
+col1.metric("Ventajas", 5)
+col2.metric("Desventajas", 4)
